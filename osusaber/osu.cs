@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Reflection;
+using System.Collections;
 using System;
+using System.Linq;
 
 namespace osusaber
 {
@@ -8,6 +10,7 @@ namespace osusaber
     {
         static osu _instance;
         static bool firstActivation = true;
+        AudioClip circlesClip = null;
 
         public static void Load()
         {
@@ -20,7 +23,6 @@ namespace osusaber
             firstActivation = false;
             DontDestroyOnLoad(this);
             AudioClip welcomeClip = null;
-            AudioClip circlesClip = null;
             Logger.Log("Loading AssetBundle");
 
             try
@@ -45,7 +47,7 @@ namespace osusaber
                     var audiosource = gameObject.AddComponent<AudioSource>();
                     audiosource.priority = 10;
                     audiosource.clip = welcomeClip;
-                    audiosource.PlayDelayed(0.2f);
+                    audiosource.PlayDelayed(0.5f);
                 }
                 catch (Exception e)
                 {
@@ -57,19 +59,17 @@ namespace osusaber
             if (circlesClip)
             {
                 Logger.Log("Click the circles!");
-                try
-                {
-                    var audiosource = gameObject.AddComponent<AudioSource>();
-                    audiosource.priority = 10;
-                    audiosource.clip = circlesClip;
-                    audiosource.Play();
-                }
-                catch (Exception e)
-                {
-                    Logger.Log("Error loading AudioClip [circles.wav]", Logger.LogLevel.Error);
-                    Logger.Log($"{e.Message}\n{e.StackTrace}", Logger.LogLevel.Error);
-                }
+                StartCoroutine(ClickTheCircles());
             }
+        }
+
+        IEnumerator ClickTheCircles()
+        {
+            SongPreviewPlayer previewPlayer = null;
+            yield return new WaitUntil(() => previewPlayer = Resources.FindObjectsOfTypeAll<SongPreviewPlayer>().FirstOrDefault());
+            yield return new WaitForSeconds(1);
+            if (previewPlayer)
+                previewPlayer.CrossfadeTo(circlesClip, 1, circlesClip.length);
         }
 
         public static void Unload()
