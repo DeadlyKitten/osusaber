@@ -23,7 +23,10 @@ namespace osusaber
 
         public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
         {
-            if (scene.name == "MenuCore") osu.Load();
+            if (scene.name == "MenuCore")
+                osu.Load();
+            else if (scene.name == "GameCore")
+                osu.Unload();
         }
 
         public void OnSceneUnloaded(Scene scene) { }

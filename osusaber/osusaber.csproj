@@ -68,10 +68,10 @@
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\welcome.asset" />
+    <EmbeddedResource Include="Resources\beatsaberosu.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\beatsaberosu.png" />
+    <EmbeddedResource Include="Resources\welcome.asset" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

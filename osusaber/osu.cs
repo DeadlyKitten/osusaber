@@ -19,7 +19,8 @@ namespace osusaber
         {
             firstActivation = false;
             DontDestroyOnLoad(this);
-            AudioClip clip = null;
+            AudioClip welcomeClip = null;
+            AudioClip circlesClip = null;
             Logger.Log("Loading AssetBundle");
 
             try
@@ -27,7 +28,8 @@ namespace osusaber
                 var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("osusaber.Resources.welcome.asset");
                 var assetBundle = AssetBundle.LoadFromStream(stream);
 
-                clip = assetBundle.LoadAsset<AudioClip>("Assets/welcome.wav");
+                welcomeClip = assetBundle.LoadAsset<AudioClip>("Assets/welcome.wav");
+                circlesClip = assetBundle.LoadAsset<AudioClip>("Assets/circles.wav");
             }
             catch (Exception e)
             {
@@ -35,22 +37,44 @@ namespace osusaber
                 Logger.Log($"{e.Message}\n{e.StackTrace}", Logger.LogLevel.Error);
             }
 
-            if (clip)
+            if (welcomeClip)
             {
                 Logger.Log("Welcome to osu!");
                 try
                 {
                     var audiosource = gameObject.AddComponent<AudioSource>();
                     audiosource.priority = 10;
-                    audiosource.clip = clip;
+                    audiosource.clip = welcomeClip;
+                    audiosource.PlayDelayed(0.2f);
+                }
+                catch (Exception e)
+                {
+                    Logger.Log("Error loading AudioClip [welcome.wav]", Logger.LogLevel.Error);
+                    Logger.Log($"{e.Message}\n{e.StackTrace}", Logger.LogLevel.Error);
+                }
+            }
+
+            if (circlesClip)
+            {
+                Logger.Log("Welcome to osu!");
+                try
+                {
+                    var audiosource = gameObject.AddComponent<AudioSource>();
+                    audiosource.priority = 10;
+                    audiosource.clip = circlesClip;
                     audiosource.Play();
                 }
                 catch (Exception e)
                 {
-                    Logger.Log("Error loading AudioClip", Logger.LogLevel.Error);
+                    Logger.Log("Error loading AudioClip [circles.wav]", Logger.LogLevel.Error);
                     Logger.Log($"{e.Message}\n{e.StackTrace}", Logger.LogLevel.Error);
                 }
             }
+        }
+
+        public static void Unload()
+        {
+            Destroy (_instance.gameObject);
         }
     }
 }
