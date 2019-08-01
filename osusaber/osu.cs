@@ -56,7 +56,7 @@ namespace osusaber
 
             if (circlesClip)
             {
-                Logger.Log("Welcome to osu!");
+                Logger.Log("Click the circles!");
                 try
                 {
                     var audiosource = gameObject.AddComponent<AudioSource>();
